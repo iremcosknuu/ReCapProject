@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities.Concreate;
+using Entities.DTOs;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,57 +11,22 @@ using System.Text;
 
 namespace DataAccess.Concreate.EntityFramework
 {
-    public class EfCarDal : ICarDal
+    public class EfCarDal : EfEntityRepositoryBase<Car, CarRentalContext>, ICarDal
     {
-        public void Add(Car entity)
+        public List<CarDetailDto> GetCarDetailDtos()
         {
             using (CarRentalContext context = new CarRentalContext())
             {
-                var addedEntity = context.Entry(entity);   //Referansı yakalar 
-                addedEntity.State = EntityState.Added;  //Nesneyi ekle
-                context.SaveChanges();                  //yapılanları kaydetme
-            }
-        }
-
-        public void Delete(Car entity)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var deletedEntity = context.Entry(entity);       //Referansı yakalar 
-                deletedEntity.State = EntityState.Deleted;    //Nesneyi siler
-                context.SaveChanges();                      //yapılanları kaydetme
-            }
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                //filtre zorunludur ve filtreden geçen veri döndürülür
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                //filter zorunlu değildir
-                return 
-                    filter == null ? 
-                    context.Set<Car>().ToList() :                 //filter null ise bütün verileri listeler
-                    context.Set<Car>().Where(filter).ToList();    //filter var ise veriyi filtrelerek listeler
-            }
-        }
-
-        public void Update(Car entity)
-        {
-            using (CarRentalContext context = new CarRentalContext())
-            {
-                var updatedEntity = context.Entry(entity);       //Referansı yakalar 
-                updatedEntity.State = EntityState.Modified;   //Nesneyi günceller
-                context.SaveChanges();                      //yapılanları kaydetme
-            }
+                var result = from car in context.Cars
+                             join brand in context.Brands on car.BrandId equals brand.BrandId
+                             join color in context.Colors on car.ColorId equals color.ColorId
+                             select new CarDetailDto 
+                             { 
+                                 CarId = car.CarId, CarName = car.CarName, BrandName=brand.BrandName,
+                                 ColorName = color.ColorName,DailyPrice=car.DailyPrice 
+                             };
+                return result.ToList();
+            } 
         }
     }
 }

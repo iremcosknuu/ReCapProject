@@ -10,17 +10,14 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-            ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            foreach (var car in carManager.GetAll())
+            foreach (var car in carManager.GetCarDetails())
             {
-                Console.WriteLine("Araba Id: " + car.Id);
-                Console.WriteLine("Araba Markası Id: " + car.BrandId);
-                Console.WriteLine("Araba Renk Id: " + car.ColorId);
-                Console.WriteLine("Araba Modeli: " + car.ModelYear);
+                Console.WriteLine("Araba Id: " + car.CarId);
+                Console.WriteLine("Araba Adı Id: " + car.CarName);
+                Console.WriteLine("Araba Rengi: " + car.ColorName);
+                Console.WriteLine("Araba Markası: " + car.BrandName);
                 Console.WriteLine("Günlük Kiralama Ücreti: " + car.DailyPrice);
-                Console.WriteLine("Açıklama: " + car.Description);
                 Console.WriteLine("********************************************");
             }
 
@@ -29,5 +26,5 @@ namespace ConsoleUI
 
        
         }
-    }
 }
+

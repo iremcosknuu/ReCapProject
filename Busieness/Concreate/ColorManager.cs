@@ -38,7 +38,7 @@ namespace Busieness.Concreate
 
         public List<Color> GetById(int Id)
         {
-            return _colorDal.GetAll(x => x.Id == Id);
+            return _colorDal.GetAll(x => x.ColorId == Id);
         }
     }
 }

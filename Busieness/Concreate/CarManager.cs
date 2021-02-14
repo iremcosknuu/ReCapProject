@@ -1,6 +1,7 @@
 ﻿using Bussienes.Abstract;
 using DataAccess.Abstract;
 using Entities.Concreate;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -47,14 +48,19 @@ namespace Bussienes.Concreate
             return _carDal.GetAll();
         }
 
-        public List<Car> GetCarsByBrandId(int Id)
+        public List<CarDetailDto> GetCarDetails()
         {
-            return _carDal.GetAll(c=> c.BrandId == Id);
+            return _carDal.GetCarDetailDtos();
         }
 
-        public List<Car> GetCarsByColorId(int Id)
+        public List<Car> GetCarsByBrandId(int id)
         {
-            return _carDal.GetAll(c=>c.ColorId == Id);
+            return _carDal.GetAll(c=> c.BrandId == id);
+        }
+
+        public List<Car> GetCarsByColorId(int id)
+        {
+            return _carDal.GetAll(c=>c.ColorId == id);
         }
 
         public void Update(Car car)

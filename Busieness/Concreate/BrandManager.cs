@@ -18,7 +18,7 @@ namespace Busieness.Concreate
 
         public void Add(Brand brand)
         {
-            if (brand.Name.Length >= 2)
+            if (brand.BrandName.Length >= 2)
             {
                 _brandDal.Add(brand);
                 Console.WriteLine("Marka bilgileri başarıyla eklendi");
@@ -42,12 +42,12 @@ namespace Busieness.Concreate
 
         public List<Brand> GetById(int Id)
         {
-            return _brandDal.GetAll(b=> b.Id == Id);
+            return _brandDal.GetAll(b=> b.BrandId == Id);
         }
 
         public void Update(Brand brand)
         {
-            if (brand.Name.Length >=2)
+            if (brand.BrandName.Length >=2)
             {
                 _brandDal.Update(brand);
                 Console.WriteLine("Marka bilgileri başarıyla güncellenmiştir");
