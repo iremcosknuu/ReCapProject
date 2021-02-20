@@ -11,7 +11,7 @@ namespace ConsoleUI
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
-            foreach (var car in carManager.GetCarDetails())
+            foreach (var car in carManager.GetCarDetails().Data)
             {
                 Console.WriteLine("Araba Id: " + car.CarId);
                 Console.WriteLine("Araba Adı Id: " + car.CarName);

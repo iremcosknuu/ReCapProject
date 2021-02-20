@@ -1,4 +1,6 @@
-﻿using Bussienes.Abstract;
+﻿using Busieness.Constrants;
+using Bussienes.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concreate;
 using Entities.DTOs;
@@ -17,62 +19,65 @@ namespace Bussienes.Concreate
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.DailyPrice>0)
             {
                 _carDal.Add(car);
-                Console.WriteLine("Araba bilgileri başrıyla eklenmiştir.");
+                return new SuccessResult(Messages.CarAdded);
             }
             else
             {
-                Console.WriteLine("Lütfen fiyat bilgisini 0'dan büyük giriniz");
+                return new ErrorResult(Messages.CarDailyPriceInvalid);
             }
+
+            return new ErrorResult();
         }
 
-        public void Delete(Car car)
+        public IResult Delete(Car car)
         {
             try
             {
                 _carDal.Delete(car);
-                Console.WriteLine("Araba bilgileri silinmiştir.");
+                return new SuccessResult(Messages.CarDeleted);
             }
             catch (Exception)
             {
-                Console.WriteLine("Belitilen Id değerinde araba kaydı bulunmamaktadır.");
+                return new ErrorResult(Messages.CarNotDeleted);
             }
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.CarListed);
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDal.GetCarDetailDtos();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailDtos());
         }
 
-        public List<Car> GetCarsByBrandId(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            return _carDal.GetAll(c=> c.BrandId == id);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
         }
 
-        public List<Car> GetCarsByColorId(int id)
+        public IDataResult<Car> Get(int id)
         {
-            return _carDal.GetAll(c=>c.ColorId == id);
+            return new SuccessDataResult<Car>(_carDal.Get(c=> c.CarId == id));
+
         }
 
-        public void Update(Car car)
+        public IResult Update(Car car)
         {
             if (car.DailyPrice>0)
             {
                 _carDal.Update(car);
-                Console.WriteLine("Araba bilgilieri güncellendi.");
+                return new SuccessResult(Messages.CarUpdated);
             }
             else
             {
-                Console.WriteLine("Lütfen 0 dan büyük bir günlük ücret değeri giriniz");
+                return new ErrorResult(Messages.CarDailyPriceInvalid);
             }
         }
     }
