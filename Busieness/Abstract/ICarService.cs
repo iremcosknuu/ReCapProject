@@ -12,7 +12,6 @@ namespace Bussienes.Abstract
         IDataResult<List<Car>> GetAll();
         IDataResult<Car> GetById(int id);
         IDataResult<List<CarDetailDto>> GetCarDetails();
-        IDataResult<Car> Get(int id);
         IResult Add(Car car);
         IResult Update(Car car);
         IResult Delete(Car car);

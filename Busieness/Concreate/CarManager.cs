@@ -62,12 +62,6 @@ namespace Bussienes.Concreate
             return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
         }
 
-        public IDataResult<Car> Get(int id)
-        {
-            return new SuccessDataResult<Car>(_carDal.Get(c=> c.CarId == id));
-
-        }
-
         public IResult Update(Car car)
         {
             if (car.DailyPrice>0)

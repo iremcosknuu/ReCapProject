@@ -1,4 +1,6 @@
 ﻿using Busieness.Abstract;
+using Busieness.Constrants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concreate;
 using System;
@@ -16,29 +18,41 @@ namespace Busieness.Concreate
             _colorDal = colorDal;
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),Messages.ColorListed);
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
             _colorDal.Add(color);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
-            _colorDal.Delete(color);
+            try
+            {
+                _colorDal.Delete(color);
+                return new SuccessResult(Messages.ColorDeleted);
+
+            }
+            catch (Exception)
+            {
+                return new ErrorResult(Messages.ColorNotDeleted);
+            }
+
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
             _colorDal.Update(color);
+            return new SuccessResult(Messages.ColorUpdated);
         }
 
-        public List<Color> GetById(int Id)
+        public IDataResult<Color> GetById(int id)
         {
-            return _colorDal.GetAll(x => x.ColorId == Id);
+            return new SuccessDataResult<Color>(_colorDal.Get(c => c.ColorId == id), Messages.ColorListed);
         }
     }
 }
