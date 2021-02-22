@@ -14,6 +14,6 @@ namespace Busieness.Abstract
         IDataResult<List<RentalDetailDto>> GetRentailDetails();
         IResult Add(Rental rental);
         IResult Delete(Rental rental);
-        IResult result(Rental rental);
+        IResult Update(Rental rental);
     }
 }

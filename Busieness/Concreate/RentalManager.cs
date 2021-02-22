@@ -51,7 +51,7 @@ namespace Busieness.Concreate
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetailDtos());
         }
 
-        public IResult result(Rental rental)
+        public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
             return new SuccessResult();
