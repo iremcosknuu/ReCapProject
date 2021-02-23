@@ -14,6 +14,11 @@ namespace Busieness.Concreate
     {
         ICustomerDal _customerDal;
 
+        public CustomerManager(ICustomerDal customerDal)
+        {
+            _customerDal = customerDal;
+        }
+
         public IResult Add(Customer customer)
         {
             _customerDal.Add(customer);
@@ -35,7 +40,7 @@ namespace Busieness.Concreate
 
         public IDataResult<List<Customer>> GetAll()
         {
-            return new SuccessDataResult<List<Customer>>(Messages.CustomerListed);
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll() ,Messages.CustomerListed);
         }
 
         public IDataResult<Customer> GetById(int id)

@@ -39,7 +39,7 @@ namespace Busieness.Concreate
 
         public IDataResult<List<User>> GetAll()
         {
-            return new SuccessDataResult<List<User>>(Messages.UserListed);
+            return new SuccessDataResult<List<User>>(_userDal.GetAll(),Messages.UserListed);
         }
 
         public IDataResult<User> GetById(int id)
