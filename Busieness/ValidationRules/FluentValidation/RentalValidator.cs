@@ -14,16 +14,8 @@ namespace Busieness.ValidationRules.FluentValidation
             RuleFor(r => r.CustomerId).NotEmpty();
             RuleFor(r => r.RentDate).NotEmpty();
             RuleFor(r => r.ReturnDate).NotEmpty().WithMessage("Teslim tarihi boş bırakılamaz");
-            RuleFor(r => r.ReturnDate).Must(ReturnDateNotNull);
+            RuleFor(r => r.RentDate).GreaterThanOrEqualTo(DateTime.Now).WithMessage("Geçersiz tarih");
         }
 
-        private bool ReturnDateNotNull(DateTime arg)
-        {
-            if (arg == null)
-            {
-                return false;
-            }
-            return true;
-        }
     }
 }
