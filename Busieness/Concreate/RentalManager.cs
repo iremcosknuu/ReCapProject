@@ -1,5 +1,7 @@
 ﻿using Busieness.Abstract;
 using Busieness.Constrants;
+using Busieness.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concreate;
@@ -19,13 +21,9 @@ namespace Busieness.Concreate
             _rentalDal = rentalDal;
         }
 
+        [ValidationAspect(typeof (RentalValidator))]
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.GetAll(r=> r.CarId == rental.CarId && r.ReturnDate == null);
-            if (result.Count > 0)
-            {
-                return new ErrorResult(Messages.RentalNotAdded);
-            }
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdded);
         }
@@ -51,6 +49,7 @@ namespace Busieness.Concreate
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetailDtos(),Messages.RentalListed);
         }
 
+        [ValidationAspect(typeof (RentalValidator))]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);

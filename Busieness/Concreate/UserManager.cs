@@ -1,5 +1,7 @@
 ﻿using Busieness.Abstract;
 using Busieness.Constrants;
+using Busieness.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concreate;
@@ -18,6 +20,7 @@ namespace Busieness.Concreate
             _userDal = userDal;
         }
 
+        [ValidationAspect(typeof (UserValidator))]
         public IResult Add(User user)
         {
             _userDal.Add(user);
@@ -47,8 +50,10 @@ namespace Busieness.Concreate
             return new SuccessDataResult<User>((_userDal.Get(u=> u.UserId == id)),Messages.UserListed);
         }
 
+        [ValidationAspect(typeof (UserValidator))]
         public IResult Update(User user)
         {
+            _userDal.Update(user);
             return new SuccessResult(Messages.UserUpdated);
         }
     }

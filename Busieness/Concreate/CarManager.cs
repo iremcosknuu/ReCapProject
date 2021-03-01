@@ -1,5 +1,8 @@
 ﻿using Busieness.Constrants;
+using Busieness.ValidationRules.FluentValidation;
 using Bussienes.Abstract;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concreate;
@@ -18,20 +21,14 @@ namespace Bussienes.Concreate
         {
             _carDal = carDal;
         }
-
+        
+        [ValidationAspect(typeof (CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.DailyPrice>0)
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.CarAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CarDailyPriceInvalid);
-            }
+            
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
 
-            return new ErrorResult();
         }
 
         public IResult Delete(Car car)
@@ -62,17 +59,11 @@ namespace Bussienes.Concreate
             return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
         }
 
+        [ValidationAspect(typeof (CarValidator))]
         public IResult Update(Car car)
         {
-            if (car.DailyPrice>0)
-            {
-                _carDal.Update(car);
-                return new SuccessResult(Messages.CarUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CarDailyPriceInvalid);
-            }
+             _carDal.Update(car);
+            return new SuccessResult(Messages.CarUpdated);
         }
     }
 }

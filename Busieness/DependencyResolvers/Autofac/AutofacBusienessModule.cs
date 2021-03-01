@@ -1,8 +1,11 @@
 ﻿using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Busieness.Abstract;
 using Busieness.Concreate;
 using Bussienes.Abstract;
 using Bussienes.Concreate;
+using Castle.DynamicProxy;
+using Core.Utilities.Interceptors;
 using DataAccess.Abstract;
 using DataAccess.Concreate.EntityFramework;
 using System;
@@ -33,6 +36,14 @@ namespace Busieness.DependencyResolvers.Autofac
 
             builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
+
+            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+            builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
+                .EnableInterfaceInterceptors(new ProxyGenerationOptions()
+                {
+                    Selector = new AspectInterceptorSelector()
+                }).SingleInstance();
         }
     }
 }

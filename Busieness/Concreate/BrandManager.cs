@@ -1,5 +1,7 @@
 ﻿using Busieness.Abstract;
 using Busieness.Constrants;
+using Busieness.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concreate;
@@ -18,17 +20,13 @@ namespace Busieness.Concreate
             _brandDal = brandDal;
         }
 
+        [ValidationAspect(typeof (BrandValidator))]
         public IResult Add(Brand brand)
         {
-            if (brand.BrandName.Length >= 2)
-            {
-                _brandDal.Add(brand);
-                return new SuccessResult(Messages.BrandNotAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.BrandAdded);
-            }
+            
+            _brandDal.Add(brand);
+            return new SuccessResult(Messages.BrandNotAdded);
+
         }
 
         public IResult Delete(Brand brand)
@@ -54,17 +52,13 @@ namespace Busieness.Concreate
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.BrandId == id),Messages.BrandListed);
         }
 
+        [ValidationAspect(typeof (BrandValidator))]
         public IResult Update(Brand brand)
         {
-            if (brand.BrandName.Length >=2)
-            {
-                _brandDal.Update(brand);
-                return new SuccessResult(Messages.BrandUpdated);
-            }
-            else
-            {
-                return new ErrorResult(Messages.BrandNotAdded);
-            }
+
+            _brandDal.Update(brand);
+            return new SuccessResult(Messages.BrandUpdated);
+
         }
     }
 }
