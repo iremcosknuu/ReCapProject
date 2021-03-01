@@ -47,7 +47,7 @@ namespace Busieness.Concreate
 
         public IDataResult<User> GetById(int id)
         {
-            return new SuccessDataResult<User>((_userDal.Get(u=> u.UserId == id)),Messages.UserListed);
+            return new SuccessDataResult<User>((_userDal.Get(u=> u.Id == id)),Messages.UserListed);
         }
 
         [ValidationAspect(typeof (UserValidator))]

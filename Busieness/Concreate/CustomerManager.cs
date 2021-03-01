@@ -48,7 +48,7 @@ namespace Busieness.Concreate
 
         public IDataResult<Customer> GetById(int id)
         {
-            return new SuccessDataResult<Customer>((_customerDal.Get(c => c.CustomerId == id)), Messages.CustomerListed);
+            return new SuccessDataResult<Customer>((_customerDal.Get(c => c.Id == id)), Messages.CustomerListed);
         }
 
         public IDataResult<List<CustomerDetailDto>> GetCustomerDetails()

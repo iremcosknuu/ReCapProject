@@ -56,7 +56,7 @@ namespace Bussienes.Concreate
 
         public IDataResult<Car> GetById(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == id));
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
 
         [ValidationAspect(typeof (CarValidator))]
