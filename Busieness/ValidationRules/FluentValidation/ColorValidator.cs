@@ -10,7 +10,6 @@ namespace Busieness.ValidationRules.FluentValidation
     {
         public ColorValidator()
         {
-            RuleFor(c => c.Id).NotEmpty();
             RuleFor(c => c.ColorName).NotEmpty();
         }
     }
